@@ -53,7 +53,7 @@ export default {
         name: '国土地理院',
         visible: true,
         url: 'https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png',
-        attribution: 'osm'
+        attribution: 'https://cyberjapandata.gsi.go.jp'
       },
       circles: [
         {
