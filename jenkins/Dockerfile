@@ -1,10 +1,9 @@
 # ビルド環境
 FROM node:lts-alpine as build-stage
 WORKDIR /app
-RUN git pull https://github.com/K-Kazuki/licle2 .
-# COPY package*.json ./
+COPY package*.json ./
 RUN npm install
-# COPY . .
+COPY . .
 RUN npm run build
 
 # 本番環境
