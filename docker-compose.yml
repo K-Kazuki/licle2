@@ -1,9 +1,11 @@
-version: '2'
+version: '3.7'
 services:
   web:
-    build: ./
+    build: 
+      context: ./
+      dockerfile: ./jenkins/Dockerfile
     volumes:
-      - ./logs:/var/log/nginx
+      - ./nginx:/var/log/nginx
     networks:
       - nginx-ssl
     ports:
