@@ -28,7 +28,7 @@
     />
     </l-map>
 
-    <button @click="getCurrentLocation">aaaaaaaaa</button>
+    <button @click="getCurrentLocation">getCurrentLocation</button>
   </div>
 
 </template>
