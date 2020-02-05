@@ -1,0 +1,40 @@
+name: deploy to server
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+    - name: Npm install
+      run: |
+        npm install
+        npm run build
+    - name: Set up ssh key
+      run: echo "$SSH_PRIVATE_KEY" > key && chmod 600 key
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+    - name: Deliver
+      run: |
+        scp -i ./key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${SSH_PORT} -r ./dist $SSH_USER@$SSH_HOST:$DEPLOY_PATH
+        scp -i ./key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${SSH_PORT} ./docker-compose.yml $SSH_USER@$SSH_HOST:$DEPLOY_PATH
+        scp -i ./key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${SSH_PORT} ./jenkins/Dockerfile $SSH_USER@$SSH_HOST:$DEPLOY_PATH
+      env:
+        SSH_USER: ${{ secrets.SSH_USER }}
+        SSH_PORT: ${{ secrets.SSH_PORT }}
+        DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        SSH_HOST: ${{ secrets.SSH_HOST }}
+    - name: Docker up
+      run: ssh -i ./key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${SSH_PORT} -t $SSH_USER@$SSH_HOST "cd /var/www/githubactions && docker-compose up --build -d"
+      env:
+        SSH_USER: ${{ secrets.SSH_USER }}
+        SSH_PORT: ${{ secrets.SSH_PORT }}
+        DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        SSH_HOST: ${{ secrets.SSH_HOST }}
