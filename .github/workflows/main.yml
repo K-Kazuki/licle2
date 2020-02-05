@@ -23,17 +23,19 @@ jobs:
       run: echo "$SSH_PRIVATE_KEY" > key && chmod 600 key
       env:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-    - name: Deliver
-      run: rsync -rlptgoD --delete --exclude ".git/" -e "ssh -i ./key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${SSH_PORT}" . $SSH_USER@$SSH_HOST:$DEPLOY_PATH
-      env:
-        SSH_USER: ${{ secrets.SSH_USER }}
-        SSH_PORT: ${{ secrets.SSH_PORT }}
-        DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
-        SSH_HOST: ${{ secrets.SSH_HOST }}
-    - name: Docker up
-      run: ssh -i ./key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${SSH_PORT} -t $SSH_USER@$SSH_HOST "cd /var/www/githubactions && docker-compose up --build -d"
-      env:
-        SSH_USER: ${{ secrets.SSH_USER }}
-        SSH_PORT: ${{ secrets.SSH_PORT }}
-        DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
-        SSH_HOST: ${{ secrets.SSH_HOST }}
+    - name: Test
+      run: ls -al
+#     - name: Deliver
+#       run: rsync -rlptgoD --delete --exclude ".git/" -e "ssh -i ./key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${SSH_PORT}" . $SSH_USER@$SSH_HOST:$DEPLOY_PATH
+#       env:
+#         SSH_USER: ${{ secrets.SSH_USER }}
+#         SSH_PORT: ${{ secrets.SSH_PORT }}
+#         DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+#         SSH_HOST: ${{ secrets.SSH_HOST }}
+#     - name: Docker up
+#       run: ssh -i ./key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${SSH_PORT} -t $SSH_USER@$SSH_HOST "cd /var/www/githubactions && docker-compose up --build -d"
+#       env:
+#         SSH_USER: ${{ secrets.SSH_USER }}
+#         SSH_PORT: ${{ secrets.SSH_PORT }}
+#         DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+#         SSH_HOST: ${{ secrets.SSH_HOST }}
