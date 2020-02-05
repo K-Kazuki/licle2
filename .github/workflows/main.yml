@@ -25,7 +25,7 @@ jobs:
       run: |
         scp -i ./key -o 'StrictHostKeyChecking no' -o 'UserKnownHostsFile /dev/null' -P ${SSH_PORT} -r ./dist $SSH_USER@$SSH_HOST:$DEPLOY_PATH
         scp -i ./key -o 'StrictHostKeyChecking no' -o 'UserKnownHostsFile /dev/null' -P ${SSH_PORT} ./docker-compose.yml $SSH_USER@$SSH_HOST:$DEPLOY_PATH
-        scp -i ./key -o 'StrictHostKeyChecking no' -o 'UserKnownHostsFile /dev/null' -P ${SSH_PORT} ./jenkins/Dockerfile $SSH_USER@$SSH_HOST:$DEPLOY_PATH
+        scp -i ./key -o 'StrictHostKeyChecking no' -o 'UserKnownHostsFile /dev/null' -P ${SSH_PORT} ./Dockerfile $SSH_USER@$SSH_HOST:$DEPLOY_PATH
       env:
         SSH_USER: ${{ secrets.SSH_USER }}
         SSH_PORT: ${{ secrets.SSH_PORT }}
