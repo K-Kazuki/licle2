@@ -3,7 +3,7 @@ services:
   web:
     build: 
       context: ./
-      dockerfile: ./jenkins/Dockerfile
+      dockerfile: ./Dockerfile
     volumes:
       - ./nginx:/var/log/nginx
     networks:
